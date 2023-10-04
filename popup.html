@@ -4,9 +4,8 @@
     </head>
     <body>
         <div class="button-container" style="display: flex; padding: 10px;">
-            <button style="font-size:30px;" id="smaller">&ndash;</button>
-            <span id="sizeReport" style="padding: 10px; font-size: 20px;">15px</span>
-            <button style="font-size:30px;" id="bigger">+</button>
+            <input type="number" id="sizeReport" name="sizeReport" maxlength="3" size="3" min="5" style="padding: 10px; font-size: 20px;" autofocus>
+            <div id="error" style="display:none; padding:10px; font-size:20px">Extension only works with Code.org's App Lab</div>
         </div>
         <script src="scripts/popup.js"></script>
     </body>

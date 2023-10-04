@@ -7,22 +7,21 @@ function getElement(){
     element = editor[0];
     if(element){
         clearInterval(checkingEditor);
-        console.log("Extension loaded!!!");
     }
 }
 
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
         if(element){
-            if(request.type == "increase"){
-                size += 2;
-            }else if(request.type == "decrease"){
-                size -= 2;
+            if(request.type == "set"){
+                size = request.value;
+                element.style.fontSize = size+"px";
+            }else if(request.type == "get"){
+                size = Number(element.style.fontSize);
             }
-            element.style.fontSize = size+"px";
-            sendResponse({size: size+"px"});
+            sendResponse({size: size});
         }else{
-            sendResponse({error: "Cannot change Code.org size"});
+            sendResponse({error: "Only available on Code.org's App Lab"});
         }
         
     });

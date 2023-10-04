@@ -1,11 +1,6 @@
-async function increaseSize(){
+async function setSize(size){
     const [tab] = await chrome.tabs.query({active: true, currentWindow: true});
-    const response = await chrome.tabs.sendMessage(tab.id, {type:"increase"});
-    return response.size;
-}
-async function decreaseSize(){
-    const [tab] = await chrome.tabs.query({active: true, currentWindow: true});
-    const response = await chrome.tabs.sendMessage(tab.id, {type:"decrease"});
+    const response = await chrome.tabs.sendMessage(tab.id, {type:"set", value:size});
     return response.size;
 }
 async function getSize(){
@@ -13,12 +8,16 @@ async function getSize(){
     const response = await chrome.tabs.sendMessage(tab.id, {type:"none"});
     return response.size;
 }
-document.getElementById("bigger").onclick=async ()=>{
-    document.getElementById("sizeReport").textContent = await increaseSize();
-};
-document.getElementById("smaller").onclick=async ()=>{
-    document.getElementById("sizeReport").textContent = await decreaseSize();
-};
 (async () => {
-    document.getElementById("sizeReport").textContent = await getSize();
+    try{
+        document.getElementById("sizeReport").value = await getSize();
+    }catch(e){
+        document.getElementById("sizeReport").style.display = "none";
+        document.getElementById("error").style.display = "inline";
+    }
 })();
+
+document.getElementById("sizeReport").oninput =
+    async function() {
+        await setSize(document.getElementById("sizeReport").value);
+    };
