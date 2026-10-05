@@ -7,7 +7,7 @@ const domain = window.location.hostname;
 if (domain.includes("code.org")) {
     selectors = ".droplet-ace.ace_editor.ace-chrome";
 } else if (domain.includes("cmu.edu")) {
-    selectors = ".ace_editor.ace_hidpi.ace-xcode, .unit-container, .notes-page-inner";
+    selectors = ".ace_editor.ace_hidpi.ace-xcode, .unit-container, .notes-page-inner, .console-output-text";
 }else if (domain.includes("pltw.org") || domain.includes("thoughtindustries.com")) {
     selectors = ".page p, .page span, .page em, div.code-editor, div.codeOutput";
 }
@@ -39,8 +39,14 @@ function applyFontSize(size) {
         if (el && el.style) {
             if (size) {
                 el.style.setProperty("font-size", size + "px", "important");
+                if(el.className == "notes-page-inner"){
+                    el.style.setProperty("max-width","100%","important");
+                }
             } else {
                 el.style.removeProperty("font-size");
+                if(el.className == "notes-page-inner"){
+                    el.style.removeProperty("max-width");
+                }
             }
         }
     });
